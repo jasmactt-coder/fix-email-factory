@@ -1,0 +1,5 @@
+fix-email-factory /
+├─ generator /
+│  ├─ build.py
+│  └─ templates /
+│     └─ page.html
