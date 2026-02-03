@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Deliverability Agent</title>
+  <meta name="description" content="An automated agent that diagnoses and fixes email deliverability issues including SPF, DKIM, and DMARC." />
+</head>
+
+<body style="font-family:system-ui;max-width:820px;margin:40px auto;padding:16px;line-height:1.6">
+
+  <h1>Email Deliverability Agent</h1>
+
+  <p>
+    This agent analyzes your email setup and identifies why your emails are
+    not reaching the inbox — including authentication, reputation, and
+    sending issues.
+  </p>
+
+  <hr />
+
+  <h2>Step 1: Enter Your Domain</h2>
+
+  <p>
+    The agent will check SPF, DKIM, and DMARC records for your sending domain.
+  </p>
+
+  <form>
+    <label>
+      <strong>Sending Domain</strong><br />
+      <input
+        type="text"
+        placeholder="example.com"
+        style="width:100%;padding:10px;margin-top:6px"
+        disabled
+      />
+    </label>
+
+    <p style="font-size:14px;color:#666">
+      (Automation coming soon — this agent will auto-detect DNS records.)
+    </p>
+  </form>
+
+  <hr />
+
+  <h2>What This Agent Checks</h2>
+
+  <ul>
+    <li>SPF record presence and alignment</li>
+    <li>DKIM selector existence</li>
+    <li>DMARC policy configuration</li>
+    <li>Common authentication failures</li>
+    <li>Inbox vs spam risk signals</li>
+  </ul>
+
+  <hr />
+
+  <h2>Agent Actions (Planned)</h2>
+
+  <ul>
+    <li>Detect missing or broken DNS records</li>
+    <li>Generate correct SPF / DKIM / DMARC values</li>
+    <li>Provide copy-paste DNS fixes</li>
+    <li>Offer auto-fix via provider APIs (advanced)</li>
+  </ul>
+
+  <hr />
+
+  <p style="font-size:14px;color:#666">
+    This is part of the <strong>Fix Library</strong> — evolving from static fixes
+    into automated agents.
+  </p>
+
+  <p>
+    ← <a href="/index.html">Back to Fix Library</a>
+  </p>
+
+</body>
+</html>
