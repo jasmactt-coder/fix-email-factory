@@ -17,29 +17,94 @@
     sending issues.
   </p>
 
-  <hr />
-
-  <h2>Step 1: Enter Your Domain</h2>
-
-  <p>
-    The agent will check SPF, DKIM, and DMARC records for your sending domain.
+  
+    Below is an example of what this agent will report after analyzing a domain.
+    (MVP simulation — real lookup coming next.)
   </p>
 
-  <form>
-    <label>
-      <strong>Sending Domain</strong><br />
-      <input
-        type="text"
-        placeholder="example.com"
-        style="width:100%;padding:10px;margin-top:6px"
-        disabled
-      />
-    </label>
+  <ul style="line-height:1.8;">
+    <li>
+      <strong>SPF:</strong> ❌ Not aligned
+      <br />
+      <span style="color:#666;font-size:14px;">
+        Sending IP/provider not authorized in SPF record (or SPF includes are incomplete).
+      </span>
+    </li>
 
-    <p style="font-size:14px;color:#666">
-      (Automation coming soon — this agent will auto-detect DNS records.)
-    </p>
-  </form>
+    <li style="margin-top:10px;">
+      <strong>DKIM:</strong> ⚠️ Partially configured
+      <br />
+      <span style="color:#666;font-size:14px;">
+        DKIM selector exists, but signature validation fails (wrong record, wrong selector, or provider mismatch).
+      </span>
+    </li>
+
+    <li style="margin-top:10px;">
+      <strong>DMARC:</strong> ⚠️ Policy set to <code>none</code>
+      <br />
+      <span style="color:#666;font-size:14px;">
+        Domain is not protected against spoofing; reports may be enabled but enforcement is off.
+      </span>
+    </li>
+
+    <li style="margin-top:10px;">
+      <strong>Inbox Placement Risk:</strong> 🔴 High
+      <br />
+      <span style="color:#666;font-size:14px;">
+        Authentication gaps + low engagement signals increase Spam/Promotions placement.
+      </span>
+    </li>
+  </ul>
+
+  <p style="font-size:14px;color:#666;margin-top:14px;">
+    Next: this will auto-detect your real DNS records and generate copy-paste fixes.
+  </p>
+</section>
+<hr />
+
+
+
+<p>
+ 
+</p>
+
+<ul>
+  <li>
+    <strong>SPF:</strong> ❌ Not aligned  
+    <br />
+    <span style="color:#666;font-size:14px;">
+      Sending IP not authorized in SPF record.
+    </span>
+  </li>
+
+  <li>
+    <strong>DKIM:</strong> ⚠️ Partially configured  
+    <br />
+    <span style="color:#666;font-size:14px;">
+      DKIM selector found, but signature validation failed.
+    </span>
+  </li>
+
+  <li>
+    <strong>DMARC:</strong> ⚠️ Policy set to <code>none</code>  
+    <br />
+    <span style="color:#666;font-size:14px;">
+      Domain is not protected against spoofing.
+    </span>
+  </li>
+
+  <li>
+    <strong>Inbox Placement Risk:</strong> 🔴 High  
+    <br />
+    <span style="color:#666;font-size:14px;">
+      Emails likely landing in spam due to authentication gaps.
+    </span>
+  </li>
+</ul>
+
+<p style="font-size:14px;color:#666">
+  (Live diagnostics and auto-fix recommendations coming next.)
+</p>
 
   <hr />
 
