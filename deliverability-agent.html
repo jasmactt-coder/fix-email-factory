@@ -61,6 +61,171 @@
   </p>
 </section>
 <hr />
+ <section style="margin-top:24px;">
+  <h2>Recommended Fixes</h2>
+
+  <p>
+    Based on the diagnostic results above, here are the recommended actions
+    to improve inbox placement and domain trust.
+  </p>
+
+  <ul style="line-height:1.8;">
+    <li>
+      <strong>Fix SPF Alignment</strong><br />
+      <span style="color:#666;font-size:14px;">
+        Ensure your sending IP or email provider is included in your SPF record.
+        Avoid multiple SPF records and keep DNS lookups under 10.
+      </span>
+    </li>
+
+    <li style="margin-top:10px;">
+      <strong>Repair DKIM Configuration</strong><br />
+      <span style="color:#666;font-size:14px;">
+        Confirm the DKIM selector exists, matches your ESP, and the public key
+        is published correctly in DNS.
+      </span>
+    </li>
+
+    <li style="margin-top:10px;">
+      <strong>Enable DMARC Enforcement</strong><br />
+      <span style="color:#666;font-size:14px;">
+        Change DMARC policy from <code>none</code> to <code>quarantine</code> or
+        <code>reject</code> once SPF and DKIM are aligned.
+      </span>
+    </li>
+
+    <li style="margin-top:10px;">
+      <strong>Reduce Inbox Risk</strong><br />
+      <span style="color:#666;font-size:14px;">
+        Warm up sending volume, improve engagement, and avoid spam-triggering
+        content until authentication issues are resolved.
+      </span>
+    </li>
+  </ul>
+
+  <p style="font-size:14px;color:#666;margin-top:14px;">
+    Automation coming next — this agent will generate exact DNS records
+    tailored to your provider.
+  </p>
+</section>
+
+<hr />
+<section style="margin-top:24px;">
+  <h2>Copy-Paste DNS Records (Example)</h2>
+
+  <p>
+    These are example records. In the next version, this agent will generate
+    the exact records for <strong>your</strong> domain + email provider.
+  </p>
+
+  <div style="border:1px solid #ddd;padding:14px;border-radius:10px;margin-top:12px;">
+    <h3 style="margin:0 0 10px 0;">1) SPF (TXT)</h3>
+    <p style="margin:0 0 8px 0;"><strong>Host/Name:</strong> @</p>
+    <p style="margin:0 0 8px 0;"><strong>Type:</strong> TXT</p>
+    <p style="margin:0 0 8px 0;"><strong>Value:</strong></p>
+
+
+  <div style="border:1px solid #ddd;padding:14px;border-radius:10px;margin-top:14px;">
+    <h3 style="margin:0 0 10px 0;">2) DKIM (TXT)</h3>
+    <p style="margin:0 0 8px 0;"><strong>Host/Name:</strong> google._domainkey</p>
+    <p style="margin:0 0 8px 0;"><strong>Type:</strong> TXT</p>
+    <p style="margin:0 0 8px 0;"><strong>Value:</strong></p>
+<div style="border:1px solid #ddd;padding:14px;border-radius:10px;margin-top:14px;">
+  <strong>SPF Record</strong><br />
+  <textarea id="spfRecord" rows="2" style="width:100%;padding:10px;font-family:ui-monospace;"></textarea>
+  <button type="button" onclick="copyText('spfRecord','spfStatus')">Copy SPF Value</button>
+  <span id="spfStatus" style="margin-left:10px;font-size:14px;color:#666;"></span>
+</div>
+
+<div style="border:1px solid #ddd;padding:14px;border-radius:10px;margin-top:14px;">
+  <strong>DKIM Record</strong><br />
+  <textarea id="dkimRecord" rows="2" style="width:100%;padding:10px;font-family:ui-monospace;"></textarea>
+  <button type="button" onclick="copyText('dkimRecord','dkimStatus')">Copy DKIM Value</button>
+  <span id="dkimStatus" style="margin-left:10px;font-size:14px;color:#666;"></span>
+</div>
+
+    
+
+  <div style="border:1px solid #ddd;padding:14px;border-radius:10px;margin-top:14px;">
+    <h3 style="margin:0 0 10px 0;">3) DMARC (TXT)</h3>
+    <p style="margin:0 0 8px 0;"><strong>Host/Name:</strong> _dmarc</p>
+    <p style="margin:0 0 8px 0;"><strong>Type:</strong> TXT</p>
+    <p style="margin:0 0 8px 0;"><strong>Value:</strong></p>
+
+    <textarea id="dmarcRecord" rows="2" style="width:100%;padding:10px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@YOURDOMAIN.com; fo=1</textarea>
+
+    <button type="button" onclick="copyText('dmarcRecord', 'dmarcStatus')" style="margin-top:10px;padding:10px 12px;cursor:pointer;">
+      Copy DMARC Value
+    </button>
+    <span id="dmarcStatus" style="margin-left:10px;font-size:14px;color:#666;"></span>
+  </div>
+
+  <p style="font-size:14px;color:#666;margin-top:12px;">
+    Tip: After updating DNS, allow up to 5–30 minutes (sometimes longer) for propagation.
+  </p>
+</section>
+<script>
+function updateRecords() {
+  const provider = document.getElementById("emailProvider").value;
+
+  const spf = document.getElementById("spfRecord");
+  const dkim = document.getElementById("dkimRecord");
+  const dmarc = document.getElementById("dmarcRecord");
+
+  if (!provider) {
+    spf.value = "";
+    dkim.value = "";
+    dmarc.value = "";
+    return;
+  }
+
+  const records = {
+    google: {
+      spf: "v=spf1 include:_spf.google.com ~all",
+      dkim: "google._domainkey.example.com TXT v=DKIM1; k=rsa; p=GOOGLE_PUBLIC_KEY",
+      dmarc: "v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com"
+    },
+    outlook: {
+      spf: "v=spf1 include:spf.protection.outlook.com ~all",
+      dkim: "selector1._domainkey.example.com TXT v=DKIM1; k=rsa; p=OUTLOOK_PUBLIC_KEY",
+      dmarc: "v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com"
+    },
+    sendgrid: {
+      spf: "v=spf1 include:sendgrid.net ~all",
+      dkim: "s1._domainkey.example.com TXT v=DKIM1; k=rsa; p=SENDGRID_PUBLIC_KEY",
+      dmarc: "v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com"
+    },
+    mailgun: {
+      spf: "v=spf1 include:mailgun.org ~all",
+      dkim: "k1._domainkey.example.com TXT v=DKIM1; k=rsa; p=MAILGUN_PUBLIC_KEY",
+      dmarc: "v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com"
+    }
+  };
+
+  spf.value = records[provider].spf;
+  dkim.value = records[provider].dkim;
+  dmarc.value = records[provider].dmarc;
+}
+</script>
+
+<script>
+  function copyText(textareaId, statusId) {
+    const el = document.getElementById(textareaId);
+    const status = document.getElementById(statusId);
+    if (!el) return;
+
+    el.select();
+    el.setSelectionRange(0, 99999);
+
+    try {
+      document.execCommand("copy");
+      if (status) status.textContent = "Copied ✅";
+      setTimeout(() => { if (status) status.textContent = ""; }, 1800);
+    } catch (e) {
+      if (status) status.textContent = "Copy failed — please copy manually.";
+    }
+  }
+</script>
 
 
 
